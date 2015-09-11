@@ -1,0 +1,102 @@
+Book:
+
+
+CREATE TABLE `library`.`book` (
+
+  `book_id` VARCHAR(12) NOT NULL,
+
+  `title` VARCHAR(45) NULL,
+
+  PRIMARY KEY (`book_id`));
+
+
+
+BookCopies
+
+CREATE TABLE `book_copies` (
+  `book_id` varchar(10) NOT NULL,
+  `branch_id` int(1) NOT NULL,
+  `no_of_copies` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`book_id`,`branch_id`)
+);
+
+
+ALTER TABLE `library`.`book_copies` 
+ADD CONSTRAINT `book_id`
+  FOREIGN KEY (`book_id`)
+  REFERENCES `library`.`book` (`book_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `branch_id`
+  FOREIGN KEY (`branch_id`)
+  REFERENCES `library`.`library_branch` (`branch_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+
+Book_authors
+
+CREATE TABLE `books_authors` (
+  `book_id` varchar(10) NOT NULL,
+  `author` varchar(70) NOT NULL,
+  `fname` varchar(35) DEFAULT NULL,
+  `minit` varchar(1) DEFAULT NULL,
+  `lname` varchar(35) DEFAULT NULL,
+  PRIMARY KEY (`book_id`,`author`)
+);
+ALTER TABLE `library`.`books_authors` 
+ADD CONSTRAINT `book_id`
+  FOREIGN KEY (`book_id`)
+  REFERENCES `library`.`book` (`book_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+
+Borrowers
+
+CREATE TABLE `borrowers` (
+  `card_no` int(4) NOT NULL,
+  `fname` varchar(12) DEFAULT NULL,
+  `lname` varchar(12) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`card_no`)
+);
+ALTER TABLE `library`.`borrowers` 
+CHANGE COLUMN `card_no` `card_no` INT(4) NOT NULL AUTO_INCREMENT ;
+
+
+Library Branch
+
+CREATE TABLE `library`.`library_branch` (
+ 
+ `branch_id` INT(1) NOT NULL,
+
+  `branch_name` VARCHAR(20) NULL,
+
+  `address` VARCHAR(40) NULL,
+
+  PRIMARY KEY (`branch_id`));
+
+
+Book Loans
+
+CREATE TABLE `library`.`book_loans` (
+  `loan_id` INTEGER(2) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ `book_id` VARCHAR(28),
+ `branch_id` VARCHAR(10), 
+ `card_no` VARCHAR(10),
+ `date_out` VARCHAR(15),
+ `due_date` VARCHAR(15), 
+ `date_in` VARCHAR(15)
+);
+
+ALTER TABLE `library`.`book_loans` 
+CHANGE COLUMN `load_id` `loan_id` INT(2) NOT NULL AUTO_INCREMENT ;
+
+
+
